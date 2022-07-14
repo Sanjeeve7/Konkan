@@ -55,43 +55,43 @@ def select_mux(mux_num):
     elif mux_num == 2:
         bus.write_byte( 0x48, A1 )
     elif mux_num == 3:
-        bus.write_byte ( 0x48, A2 )
+        bus.write_byte( 0x48, A2 )
 
     return 0
 
 def select_sensor(sensor_num):
     write_data = [0,0,0,0]
-    if sensor_num == 0:
+    if sensor_num == 1:
         write_data = [0,0,0,0]
-    elif sensor_num == 1:
-        write_data = [0,0,0,1]
     elif sensor_num == 2:
-        write_data = [0,0,1,0]
+        write_data = [0,0,0,1]
     elif sensor_num == 3:
-        write_data = [0,0,1,1]
+        write_data = [0,0,1,0]
     elif sensor_num == 4:
-        write_data = [0,1,0,0]
+        write_data = [0,0,1,1]
     elif sensor_num == 5:
-        write_data = [0,1,0,1]
+        write_data = [0,1,0,0]
     elif sensor_num == 6:
-        write_data = [0,1,1,0]
+        write_data = [0,1,0,1]
     elif sensor_num == 7:
-        write_data = [0,1,1,1]
+        write_data = [0,1,1,0]
     elif sensor_num == 8:
-        write_data = [1,0,0,0]
+        write_data = [0,1,1,1]
     elif sensor_num == 9:
-        write_data = [1,0,0,1]
+        write_data = [1,0,0,0]
     elif sensor_num == 10:
-        write_data = [1,0,1,0]
+        write_data = [1,0,0,1]
     elif sensor_num == 11:
-        write_data = [1,0,1,1]
+        write_data = [1,0,1,0]
     elif sensor_num == 12:
-        write_data = [1,1,0,0]
+        write_data = [1,0,1,1]
     elif sensor_num == 13:
-        write_data = [1,1,0,1]
+        write_data = [1,1,0,0]
     elif sensor_num == 14:
-        write_data = [1,1,1,0]
+        write_data = [1,1,0,1]
     elif sensor_num == 15:
+        write_data = [1,1,1,0]
+    elif sensor_num == 16:
         write_data = [1,1,1,1]
     
     for i in range (0,4):
@@ -111,6 +111,6 @@ output_pins = {14,15,18,23}
 init_pins( mux_Select_pins, i2c_mux_rst_pin, mod_sel_pins, output_pins ) #Initialize pins
 bus = SMBus(1) #Initialize I2C
 select_module(1) #Select the module
-select_sensor() #Select from which sensor we need input
-select_mux() #Select from which mux we need the input using ADC Input Selection
-read_sensor_data() #Read data from selected sensor
+select_sensor(1) #Select from which sensor we need input
+select_mux(1) #Select from which mux we need the input using ADC Input Selection
+value = read_sensor_data() #Read data from selected sensor
