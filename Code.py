@@ -1,5 +1,6 @@
 import RPi.GPIO as io
 from smbus2 import SMBus 
+from time import sleep
 
 io.setwarnings(False)
 
@@ -103,10 +104,29 @@ def read_sensor_data():
     value = bus.read_byte(0x48)
     return value
 
+def output(out, output_pins):
+    io.OUTPUT(outpout_pins[3],0)
+    sleep(0.000000050)
+    io.OUTPUT(outpout_pins[1],1)
+    sleep(0.000000050)
+    io.OUTPUT(outpout_pins[1],0)
+    sleep(0.000000050)
+    while(data!=0):
+        data = 0b01 & out
+        io.OUTPUT(outpout_pins[0],data)
+        io.OUTPUT(outpout_pins[2],1)
+        sleep(0.000000100)
+        io.OUTPUT(outpout_pins[2],0)
+        sleep(0.000000100)
+        out = out >> 1
+    io.OUTPUT(outpout_pins[3],1)
+    sleep(0.000000050)
+    return 
+
 mux_Select_pins = [13,6,5,0]
 i2c_mux_rst_pin = 4
 mod_sel_pins = {22,27,17}
-output_pins = {14,15,18,23}
+outpout_pins = {14,15,18,23}
 
 init_pins( mux_Select_pins, i2c_mux_rst_pin, mod_sel_pins, output_pins ) #Initialize pins
 bus = SMBus(1) #Initialize I2C
@@ -114,3 +134,6 @@ select_module(1) #Select the module
 select_sensor(1) #Select from which sensor we need input
 select_mux(1) #Select from which mux we need the input using ADC Input Selection
 value = read_sensor_data() #Read data from selected sensor
+
+out = 0b01
+output(out,outpout_pins)
